@@ -94,7 +94,7 @@ def createguide():
     form = CreateGuide()
     if form.validate_on_submit():
         g = Guides(guidename=form.guidename.data, phone=form.phonenumber.data,
-            email=form.email.data, guidetype=form.guidetype.data)
+            email=form.email.data, guidetype=form.guidetype.data, dni=form.dni.data)
         try:
             db.session.add(g)
             db.session.commit()
