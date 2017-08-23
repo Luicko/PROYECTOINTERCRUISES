@@ -1,0 +1,29 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block head %}
+{{ super() }}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="Shortcut icon" href="http://media.mmo-champion.com/images/news/2013/march/hearthstoneIcon.png">
+{% endblock %}
+
+
+{% block navbar %}
+{% if current_user.is_authenticated %}
+<ul class="nav nav-pills nav-justified">
+  <li role="presentation"><a href="{{ url_for('main') }}">Main Page</a></li>
+  <li role="presentation"><a href="{{ url_for('createcruise') }}">Create Cruise</a></li>
+  <li role="presentation"><a href="{{ url_for('createguide') }}">Create Guide</a></li>
+  <li role="presentation"><a href="{{ url_for('createcompany') }}">Create Company</a></li>
+  <li role="presentation"><a href="{{ url_for('guideadmin') }}">Guide Administration</a></li>
+  {% if current_user.username == 'samhernandez' %}
+  <li role="presentation"><a href="{{ url_for('regist') }}">Create User</a></li>
+  {% endif %}
+  <li><button type="button" class="btn btn-default navbar-btn"><a href="{{ url_for('logout') }}">Log Out</a></button></li>
+</ul>
+{% endif %}
+{% endblock %}
+
+
+{{ title }}

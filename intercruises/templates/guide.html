@@ -1,0 +1,66 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block styles %}
+  {{ super() }}
+  <style type="text/css">
+    .scroll-area{
+  height: 200px;
+  overflow-y:scroll;
+}
+  </style>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+ <script type='text/javascript'>
+     $(function() {
+         $('button[name=upper]').click(function(){
+            $.post("{{ url_for('editguide') }}", {
+            newname: $('input[name=newname]').val(),
+            newemail: $('input[name=newemail]').val(),
+            newphone: $('input[name=newphone]').val(),
+            g: {{ guide.phone }}
+          });
+         });
+      });
+
+     $(function() {
+         $('button[name=del]').click(function(){
+            $.post("{{ url_for('deleteassign') }}", {
+            date: $(this).val(),
+            phone: {{ guide.phone }}
+          });
+         });
+      });
+ </script>
+{% endblock %}
+{% block content %}
+{% set title = guide.guidename %}
+<div class="container">
+<div class="page-header">
+    <h2>{{ guide.guidename }}</h2>
+</div>
+  Name: <input name="newname" type="text" value="{{ guide.guidename }}"></input>
+  Phone: <input name="newphone" type="text" value="{{ guide.phone }}"></input>
+  Email: <input name="newemail" type="text" value="{{ guide.email }}"></input>
+
+<button name="upper" type="button" class="btn btn-default btn-sm">
+  <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+</button>
+</br>
+
+<h3>Appointments</h3>
+<div class="scroll-area">
+  <ul>
+  {% for cruise in guidecruises %}
+    {% for obj in cruises %}
+        {% if obj.cruise_id == cruise.cruise_id %}
+          <li>{{ obj.cruisename }} - {{ cruise.date }}
+        <button name="del" type="button" value="{{ cruise.date }}" class="btn btn-default btn-xs">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true" value="{{ cruise.date }}"></span>
+        </button></li>
+        {% endif %}
+      {% endfor %}
+  {% endfor %}
+</ul>
+    </div>
+{% endblock %}

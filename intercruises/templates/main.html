@@ -1,0 +1,105 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends 'base.html' %}
+{% block styles %}
+  {{ super() }}
+  <style type="text/css">
+    .scroll-area1{
+  height: 150px;
+  overflow-y:scroll;
+}
+
+.scroll-area2{
+  height: 150px;
+  overflow-y:scroll;
+}
+
+  #second{
+    height: 320px;
+  }
+  </style>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+ <script type='text/javascript'>
+     $(function() {
+         $('input[name=send]').click(function(){
+            document.getElementById("demo").innerHTML = $('input[name=optradio2]:checked').val();
+            $.post("{{ url_for('assignguide') }}", {
+            phone: $('input[name=optradio2]:checked').val(),
+            iddate: $('input[name=optradio3]:checked').val()
+          });
+         });
+      });
+
+     $(function() {
+         $('button[name=add]').click(function(){
+            var elems = new Array();
+            var d = $(this).val();
+            var id = $(this).attr('id');
+            $('.adding:checked').each(function(){
+                  elems.push($(this).attr('value'));
+              });
+            document.getElementById("demo").innerHTML = elems;
+            $.ajax({
+        type: 'POST',
+        url: '{{ url_for("addmultiple") }}',
+        data: {phones: elems, date: d, cruise_id: id}});
+         });
+      });
+
+     $(function() {
+         $('button[name=del]').click(function(){
+            $.post("{{ url_for('delmultiple') }}", {
+            phone: $('input[name=adding]:checked').val(),
+          });
+         });
+      });
+ </script>
+{% endblock %}
+{% block content %}
+{% if current_user.is_authenticated %}
+<div class="row">
+  <div class="col-md-4">
+    <div class="jumbotron">
+      <h1>Cruise Appointing</h1>
+        <p>
+          <div><button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Select Company</button></div>
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                    <ul>
+                    {% for company in cruisecompany %}
+                      <li><label><a href="{{ url_for('assigncruise', companyname=company.companyname) }}"><input  type="radio" name="optradio" value="{{ company.companyname }}">{{ company.companyname }} - {{ company.shortname }}</input></a></label></li> 
+                    {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+            </div>
+        </p>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div id="second" class="jumbotron">
+      <h1>Assign Guides</h1>
+      <p>
+        <div class="col-md-6">
+          <div class="scroll-area2">
+            {% for ship in guidecruises %}
+              {% for cruise in cruises %}
+                {% if ship.cruise_id == cruise.cruise_id %}
+                  <div>
+                    <a href="{{ url_for('cruiseadmin', cruise_id=ship.cruise_id, date=ship.date) }}"><button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg-{{ ship.date }}">{{ cruise.cruisename }} - {{ ship.date }}</button>
+                  </div></a>
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+      </p>
+    </div>
+  </div>
+</div>
+{% else %}
+<h2>YOU GOTTA LOG IN FIRST</h2>
+{% endif %}
+{% endblock %}
