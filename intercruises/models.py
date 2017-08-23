@@ -39,6 +39,7 @@ class Guides(db.Model):
     email = db.Column(db.String(255), index=True, unique=True)
     guidetype = db.Column(db.String(64), index=True)
     phone = db.Column(db.Integer, primary_key=True)
+    dni = db.Column(db.String(9), unique=True)
     applies = db.relationship('Cruises', secondary='guide_cruise_table',
         backref=db.backref('Cruises', lazy='dynamic'))
 
