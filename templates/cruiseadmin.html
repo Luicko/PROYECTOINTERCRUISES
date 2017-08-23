@@ -1,0 +1,103 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block styles %}
+  {{ super() }}
+  <style type="text/css">
+    .scroll-area{
+  height: 200px;
+  overflow-y:scroll;
+}
+  </style>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+ <script type='text/javascript'>
+     $(function() {
+         $('button[name=add]').click(function(){
+            var elems = new Array();
+            var d = $(this).val();
+            var id = $(this).attr('id');
+            $('.adding:checked').each(function(){
+                  elems.push($(this).attr('value'));
+              });
+            $.ajax({
+        type: 'POST',
+        url: '{{ url_for("addmultiple") }}',
+        data: {phones: elems, date: d, cruise_id: id}});
+         });
+      });
+
+     $(function() {
+         $('button[name=del]').click(function(){
+            var elems = new Array();
+            var d = $(this).val();
+            var id = $(this).attr('id');
+            $('.deleting:checked').each(function(){
+                  elems.push($(this).attr('value'));
+              });
+            $.ajax({
+        type: 'POST',
+        url: '{{ url_for("delmultiple") }}',
+        data: {phones: elems, date: d, cruise_id: id}});
+         });
+      });
+
+     $(function() {
+         $('button[name=copy]').click(function(){
+            $.post("{{ url_for('copy') }}", {
+            new_date: $('input[name=date]').val(),
+            cruise_id: $(this).attr('id'),
+            old_date: $(this).attr('class')
+          });
+         });
+      });
+ </script>
+{% endblock %}
+{% block content %}
+{% set title = cruise.cruisename %}
+<div class="container">
+<div class="page-header">
+  <h2>{{ date }}</h2>
+</div>
+<div class="col-md-12">
+  <div class="col-md-6">
+    <h4>Assigned</h4>
+    <ul>
+        {% for guide in guides %}
+          {% if guide.phone in employed %}
+            <li>
+            <input type="checkbox" class="deleting" value="{{ guide.phone }}">{{ guide.guidename }} - {% if guide.guidetype == 'dcl' %}Declared{% elif guide.guidetype == 'se' %} Self-employed {% endif %}
+            </li>
+          {% endif %}
+        {% endfor %}
+    </ul>
+    <button name="del" type="button" class="btn btn-default btn-xs" value="{{ main.date }}" id="{{ main.cruise_id }}">
+      <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+    </button>
+  </div>
+  <div class="col-md-6">
+    <h4>Un-Assigned</h4>
+    <ul>
+      {% for guide in guides %}
+        {% if guide.phone not in employed %}
+          <li>
+            <input type="checkbox" class="adding" value="{{ guide.phone }}">{{ guide.guidename }} - {{ guide.phone }}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+    <button name="add" type="button" class="btn btn-default btn-xs" value="{{ main.date }}" id="{{ main.cruise_id }}">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    </button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6"><label class='control-label'>Copy to:</label> {{ form.date(class='form-control') }}
+  <button name="copy" class="{{ main.date }}" id="{{ main.cruise_id }}">
+    <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
+  </button>
+  <a href="{{ url_for('main') }}">Exit</a>
+  </div>
+</div>
+</div>
+{% endblock %}
