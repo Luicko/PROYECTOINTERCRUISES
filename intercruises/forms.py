@@ -24,6 +24,7 @@ class CreateGuide(Form):
     guidename = StringField('Name', validators=[validators.DataRequired()])
     phonenumber = IntegerField('Phone', validators=[validators.DataRequired()])
     email = StringField('Email')
+    dni = StringField('DNI')
     guidetype = RadioField('Type', choices=[('se', 'Self-Employed'),('dcl', 'Declared')])
     another = BooleanField('Another', default=False)
     submit = SubmitField('Create')
