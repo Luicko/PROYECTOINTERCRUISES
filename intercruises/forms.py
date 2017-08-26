@@ -26,7 +26,7 @@ class CreateGuide(Form):
     email = StringField('Email')
     dni = StringField('DNI')
     guidetype = RadioField('Type', choices=[('se', 'Self-Employed'),('dcl', 'Declared')])
-    guidecontract = RadioField('Contract' choices=[('of', 'Official'),('nof', 'Non-Official')])
+    guidecontract = RadioField('Contract', choices=[('of', 'Official'),('nof', 'Non-Official')])
     spanish = BooleanField('ESP')
     german = BooleanField('GER')
     english = BooleanField('ENG')
