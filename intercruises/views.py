@@ -9,6 +9,7 @@ from datetime import datetime
 from flask import render_template, redirect, url_for, flash, request, g, jsonify, session
 from flask.ext.login import (login_user, logout_user, current_user,
     login_required)
+from sqlalchemy import exc
 from werkzeug.security import generate_password_hash, \
     check_password_hash
 from sqlalchemy import func
@@ -62,7 +63,7 @@ def finalassign():
     cruise = request.form.get('optradio', type=int)
     phones = request.form.getlist('phones[]')
     date = request.form.get('date', type=str)
-    date = datetime.strptime(date, '%Y-%M-%d').date()
+    date = datetime.strptime(date, '%d/%M/%Y').date()
     if phones and not GuideCruises.query.filter_by(cruise_id=cruise, date=date).all():
         for phone in phones:
             entry = GuideCruises(cruise_id=cruise, date=date, phone=phone)
@@ -79,7 +80,7 @@ def assignguide():
     x = request.form.get('iddate', type=str)
     shi,date = x.split(",")
     shi = int(shi)
-    date = datetime.strptime(date, '%Y-%M-%d').date()
+    date = datetime.strptime(date, '%d/%M/%Y').date()
     guidecruise = GuideCruises.query.filter_by(cruise_id=shi, date=date).first()
     guide = Guides.query.filter_by(phone=pho).first_or_404()
     newassign = guidecruise
@@ -93,8 +94,10 @@ def assignguide():
 def createguide():
     form = CreateGuide()
     if form.validate_on_submit():
+        language = form.spanish.data, form.english.data, form.german.data, form.italian.data, form.other.data
         g = Guides(guidename=form.guidename.data, phone=form.phonenumber.data,
-            email=form.email.data, guidetype=form.guidetype.data, dni=form.dni.data)
+            email=form.email.data, guidetype=form.guidetype.data, guidecontract=form.guidecontract.data,
+            language=language, dni=form.dni.data)
         try:
             db.session.add(g)
             db.session.commit()
@@ -102,7 +105,7 @@ def createguide():
                 return redirect(url_for('createguide'))
             else:
                 return redirect(url_for('main'))
-        except:
+        except exc.SQLAlchemyError:
             flash("Something went wrong")
     return render_template('createguide.html', form=form)
 
@@ -120,7 +123,7 @@ def createcruise():
                 return redirect(url_for('createcruise'))
             else:
                 return redirect(url_for('main'))
-        except:
+        except exc.SQLAlchemyError:
             flash("Something went wrong!")
     return render_template('createcruise.html', form=form, cruisecompany=cruisecompany)
 
@@ -137,7 +140,7 @@ def createcompany():
                 return redirect(url_for('createcompany'))
             else:
                 return redirect(url_for('main'))
-        except:
+        except exc.SQLAlchemyError:
             flash('Something went wrong!')
     return render_template('createcompany.html', form=form)
 
@@ -205,7 +208,7 @@ def eliminatecompany():
 def eliminateassign():
     assign = GuideCruises.query.all()
     form = ElimAss()
-    date = datetime.strptime(form.date.data, '%Y-%M-%d').date()
+    date = datetime.strptime(form.date.data, '%d/%M/%Y').date()
     if form.validate_on_submit():
         e = GuideCruises.query.filter_by(date=date, cruise_id=form.cruise_id.data).all()
         db.session.delete(e)
@@ -224,19 +227,20 @@ def guideadmin():
 def guide(phone):
     guidecruises = GuideCruises.query.filter_by(phone=phone).order_by(GuideCruises.date).all()
     guide = Guides.query.filter_by(phone=phone).first_or_404()
+    language = guide.language.split()
     crui = Cruises.query.all()
     cruises = []
     for obj in guidecruises:
         for ship in crui:
             if obj.cruise_id == ship.cruise_id:
                 cruises.append(ship)
-    return render_template('guide.html', guide=guide, guidecruises=guidecruises, cruises=cruises)
+    return render_template('guide.html', guide=guide, guidecruises=guidecruises, cruises=cruises, language=language)
 
 
 @app.route('/deleteassign', methods=['GET', 'POST'])
 def deleteassign():
     date = request.form.get('date')
-    date = datetime.strptime(date, '%Y-%M-%d').date()
+    date = datetime.strptime(date, '%d/%M/%Y').date()
     guide = request.form.get('phone', type=int)
     e = GuideCruises.query.filter_by(date=date, phone=guide).first()
     db.session.delete(e)
@@ -250,11 +254,14 @@ def editguide():
     newname = request.form.get('newname', type=str)
     newemail = request.form.get('newemail', type=str)
     newphone = request.form.get('newphone', type=int)
+    newdni = request.form.get('newdni', type=str)
     guide = Guides.query.filter_by(phone=g).first()
     if newname and newname != guide.guidename:
         guide.guidename = newname
     if newemail and newemail != guide.email:
         guide.email = newemail
+    if newdni and newdni != guide.dni:
+        guide.dni = newdni
     if newphone and newphone != guide.phone:
         check = GuideCruises.query.all()
         for obj in check:
@@ -265,22 +272,23 @@ def editguide():
         guide.phone = newphone
     db.session.add(guide)
     db.session.commit()
-    return redirect(url_for('guide', phone=newphone))
+    return redirect(url_for('guideadmin'))
 
 @app.route('/addmultiple', methods=['GET', 'POST'])
 def addmultiple():
     phones = request.form.getlist('phones[]')
     date = request.form.get('date', type=str)
-    date = datetime.strptime(date, '%Y-%M-%d').date()
+    date = datetime.strptime(date, '%d/%M/%Y').date()
     cruise_id = request.form.get('cruise_id', type=int)
     if phones:
         try:
             for p in phones:
                 new = GuideCruises(date=date, cruise_id=cruise_id, phone=p)
-                db.session.add(new)
-                db.session.commit()
+                if not GuideCruises.query.filter_by(date=date, cruise_id=cruise_id, phone=p).first():
+                    db.session.add(new)
+                    db.session.commit()
             return redirect(url_for('index'))
-        except:
+        except exc.SQLAlchemyError:
             flash("Something went wrong")
 
 
@@ -288,7 +296,7 @@ def addmultiple():
 def delmultiple():
     phones = request.form.getlist('phones[]')
     date = request.form.get('date', type=str)
-    date = datetime.strptime(date, '%Y-%M-%d').date()
+    date = datetime.strptime(date, '%d/%M/%Y').date()
     cruise_id = request.form.get('cruise_id', type=int)
     if phones:
         try:
@@ -297,16 +305,16 @@ def delmultiple():
                 db.session.delete(old)
                 db.session.commit()
             return redirect(url_for('index'))
-        except:
+        except exc.SQLAlchemyError:
             flash("Something went wrong")
 
 @app.route('/copy', methods=['GET', 'POST'])
 def copy():
     old_date = request.form.get('old_date', type=str)
     cruise_id = request.form.get('cruise_id', type=int)
-    old_date = datetime.strptime(old_date, '%Y-%M-%d').date()
+    old_date = datetime.strptime(old_date, '%d/%M/%Y').date()
     new_date = request.form.get('new_date', type=str)
-    new_date = datetime.strptime(new_date, '%Y-%M-%d').date()
+    new_date = datetime.strptime(new_date, '%d/%M/%Y').date()
     old = GuideCruises.query.filter_by(date=old_date, cruise_id=cruise_id).all()
     if new_date:
         try:
@@ -315,7 +323,7 @@ def copy():
                 db.session.add(new)
                 db.session.commit()
             return redirect(url_for('main'))
-        except:
+        except exc.SQLAlchemyError:
             flash("Something went wrong")
 
 
