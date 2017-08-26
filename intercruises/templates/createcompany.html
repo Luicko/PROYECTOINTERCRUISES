@@ -2,25 +2,17 @@
 {% extends "base.html" %}
 {% block content %}
 {% set title = "New Company" %}
-{% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-            {% for message in messages %}
-              <li>{{ message }} </li>
-            {% endfor %}
-        </ul>
-      {% endif %}
-  {% endwith %}
 <div class="container">
-	{% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-            {% for message in messages %}
-              <li>{{ message }} </li>
-            {% endfor %}
-        </ul>
-      {% endif %}
-  {% endwith %}
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <script>
+      var messages = {{ messages | safe }};
+      for (var i=0; i<messages.length; i++) {
+        alert(messages[i]);
+      }
+    </script>
+  {% endif %}
+{% endwith %}
 <div class="page-header">
     <h2>{{ 'Adding new Cruise Company' }}</h2>
   </div>
