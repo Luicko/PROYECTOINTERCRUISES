@@ -18,6 +18,7 @@
             newname: $('input[name=newname]').val(),
             newemail: $('input[name=newemail]').val(),
             newphone: $('input[name=newphone]').val(),
+            newdni: $('input[name=newdni]').val(),
             g: {{ guide.phone }}
           });
          });
@@ -29,6 +30,7 @@
             date: $(this).val(),
             phone: {{ guide.phone }}
           });
+          location.reload(true);
          });
       });
  </script>
@@ -36,13 +38,23 @@
 {% block content %}
 {% set title = guide.guidename %}
 <div class="container">
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <script>
+      var messages = {{ messages | safe }};
+      for (var i=0; i<messages.length; i++) {
+        alert(messages[i]);
+      }
+    </script>
+  {% endif %}
+{% endwith %}
 <div class="page-header">
     <h2>{{ guide.guidename }}</h2>
 </div>
   Name: <input name="newname" type="text" value="{{ guide.guidename }}"></input>
   Phone: <input name="newphone" type="text" value="{{ guide.phone }}"></input>
   Email: <input name="newemail" type="text" value="{{ guide.email }}"></input>
-  DNI: {{ guide.dni }}
+  DNI: <input name="newdni" type="text" value="{{ guide.dni }}"></input>
 
 <button name="upper" type="button" class="btn btn-default btn-sm">
   <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
