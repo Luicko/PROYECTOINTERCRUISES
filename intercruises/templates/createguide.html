@@ -25,7 +25,7 @@
     <div><label class='control-label'>Type:</label> {{ form.guidetype(class='form-radio') }}</div>
     <div><label class='control-label'>Contract:</label> {{ form.guidecontract(class='form-radio') }}</div>
     <div><label class='control-label'>Language:</label></div>
-    <div><{{ form.spanish(class='form-radio') }} {{ form.english(class='form-radio') }} {{ form.italian(class='form-radio') }} {{ form.german(class='form-radio') }} {{ form.other(class='form-radio') }}</div>
+    <div>ESP{{ form.spanish(class='form-radio') }} ENG{{ form.english(class='form-radio') }} ITA{{ form.italian(class='form-radio') }} GER{{ form.german(class='form-radio') }} OTHER{{ form.other(class='form-radio') }}</div>
     <div><label class='control-label'>Add More:</label> {{ form.another(class='form-control') }}</div><br>
     <div>{{ form.submit(class='btn btn-primary') }}</div>
 
