@@ -38,8 +38,10 @@ class Guides(db.Model):
     guidename = db.Column(db.String(64), unique=True)
     email = db.Column(db.String(255), index=True, unique=True)
     guidetype = db.Column(db.String(64), index=True)
+    guidecontract = db.Column(db.String(64), index=True)
     phone = db.Column(db.Integer, primary_key=True)
     dni = db.Column(db.String(20), unique=True)
+    language = db.Column(db.String(255))
     applies = db.relationship('Cruises', secondary='guide_cruise_table',
         backref=db.backref('Cruises', lazy='dynamic'))
 
