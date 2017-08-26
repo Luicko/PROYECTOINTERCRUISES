@@ -4,13 +4,14 @@
 {% set title = "New Guides" %}
 <div class="container">
 {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-            {% for message in messages %}
-              <li>{{ message }} </li>
-            {% endfor %}
-        </ul>
-      {% endif %}
+  {% if messages %}
+    <script>
+      var messages = {{ messages | safe }};
+      for (var i=0; i<messages.length; i++) {
+        alert(messages[i]);
+      }
+    </script>
+  {% endif %}
 {% endwith %}
 <div class="page-header">
     <h2>{{ 'Adding new Guide' }}</h2>
@@ -22,6 +23,9 @@
     <div><label class='control-label'>Email:</label> {{ form.email(class='form-control') }}</div>
     <div><label class='control-label'>DNI:</label> {{ form.dni(class='form-control') }}</div>
     <div><label class='control-label'>Type:</label> {{ form.guidetype(class='form-radio') }}</div>
+    <div><label class='control-label'>Contract:</label> {{ form.guidecontract(class='form-radio') }}</div>
+    <div><label class='control-label'>Language:</label></div>
+    <div><{{ form.spanish(class='form-radio') }} {{ form.english(class='form-radio') }} {{ form.italian(class='form-radio') }} {{ form.german(class='form-radio') }} {{ form.other(class='form-radio') }}</div>
     <div><label class='control-label'>Add More:</label> {{ form.another(class='form-control') }}</div><br>
     <div>{{ form.submit(class='btn btn-primary') }}</div>
 
