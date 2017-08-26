@@ -69,7 +69,7 @@
                   <div class="modal-content">
                     <ul>
                     {% for company in cruisecompany %}
-                      <li><label><a href="{{ url_for('assigncruise', companyname=company.companyname) }}"><input  type="radio" name="optradio" value="{{ company.companyname }}">{{ company.companyname }} - {{ company.shortname }}</input></a></label></li> 
+                      <li><label><a href="{{ url_for('assigncruise', companyname=company.companyname) }}">{{ company.companyname }} - {{ company.shortname }}</a></label></li> 
                     {% endfor %}
                     </ul>
                   </div>
