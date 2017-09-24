@@ -6,6 +6,14 @@
     $(document).ready(function() {
      $('#table-guides').dynatable();
     });
+
+    $(function() {
+         $('button[name=del]').click(function(){
+            $.post("{{ url_for('eliminateguide') }}", {
+            phone: $(this).attr('id'),
+          });
+         });
+      });
     </script>
 {% endblock %}
 {% block styles %}
@@ -47,6 +55,7 @@
     <tr>
         <td><a href="{{ url_for('guide', phone=guide.phone) }}">{{ guide.guidename }} <span class="glyphicon glyphicon-cd" aria-hidden="true"></span></a></td>
         <td><a href="{{ url_for('guide', phone=guide.phone) }}">{{ guide.phone }}</a></td>
+        <td><button type="button" class="btn btn-primary" name="del" id="{{ guide.phone }}">X</button></td>
     </tr>
   {% endfor %}
   </tbody>
