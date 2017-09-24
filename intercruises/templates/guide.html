@@ -61,6 +61,11 @@
 <button name="upper" type="button" class="btn btn-default btn-sm">
   <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
 </button>
+<ul>
+{% for lan in language %}
+<li> {lan} </li>
+{% endfor %}
+</ul>
 </br>
 
 <h3>Appointments</h3>
