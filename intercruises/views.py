@@ -367,6 +367,7 @@ def copy():
 
 @app.route('/cruiseadmin/<cruise_id>/<date>', methods=['GET', 'POST'])
 def cruiseadmin(cruise_id, date):
+    date = converter(date)
     guidecruises = GuideCruises.query.filter_by(cruise_id=cruise_id, date=date).all()
     main = GuideCruises.query.filter_by(cruise_id=cruise_id, date=date).first()
     guides = Guides.query.all()
@@ -376,3 +377,8 @@ def cruiseadmin(cruise_id, date):
     for phone in guidecruises:
         employed.append(phone.phone)
     return render_template('cruiseadmin.html', form=form, guides=guides, guidecruises=guidecruises, cruise=cruise, date=date, employed=employed, main=main)
+
+
+    def converter(date):
+        date = datetime.strptime(date, '%d/%M/%Y').date()
+        return date
