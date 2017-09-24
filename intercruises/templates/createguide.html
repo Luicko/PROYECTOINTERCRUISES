@@ -24,7 +24,7 @@
     <div><label class='control-label'>DNI:</label> {{ form.dni(class='form-control') }}</div>
     <div><label class='control-label'>Type:</label> {{ form.guidetype(class='form-radio') }}</div>
     <div><label class='control-label'>Contract:</label> {{ form.guidecontract(class='form-radio') }}</div>
-    <div><label class='control-label'>Language:</label> {{ form.language.label(class='form-control', multiple=True) }}</div>
+    <div><label class='control-label'>Language:</label> {{ form.language(multiple=True) }}</div>
     <div>{{ form.submit(class='btn btn-primary') }}</div>
 
   </form>
