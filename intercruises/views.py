@@ -253,16 +253,17 @@ def delcompany(companyname):
 @app.route('/eliminateassign/<cruise_id>/<date>', methods=['GET', 'POST'])
 def eliminateassign(cruise_id, date):
     date = datetime.strptime(date, '%d-%m-%Y').date()
-    assign = GuideCruises.query.filter_by(cruise_id=cruise_id, date=date).first_or_404()
-    cruise = Cruises.query.filter_by(cruise_id=assign.cruise_id).first_or_404()
+    assign = GuideCruises.query.filter_by(cruise_id=cruise_id, date=date).all()
+    cruise = Cruises.query.filter_by(cruise_id=cruise_id).first_or_404()
     form = ElimAss()
     if form.validate_on_submit():
         if form.check.data:
-            e = GuideCruises.query.filter_by(date=date, cruise_id=form.hidde.data).all()
-            db.session.delete(e)
-            db.session.commit()
+            e = GuideCruises.query.filter_by(date=converter(date), cruise_id=cruise_id).all()
+            for obj in e:
+                db.session.delete(e)
+                db.session.commit()
             return redirect(url_for('main'))
-    return render_template('eliminateassign.html', form=form, assign=assign, cruise=cruise)
+    return render_template('eliminateassign.html', form=form, assign=assign, cruise=cruise, date=date)
 
 
 @app.route('/guideadmin')
