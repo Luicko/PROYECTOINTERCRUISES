@@ -94,7 +94,7 @@ def assignguide():
 def createguide():
     form = CreateGuide()
     if form.validate_on_submit():
-        language = form.language.getlist
+        language = form.language.data
         res = ""
         for x in language:
             res = res + x[0] + "-"
