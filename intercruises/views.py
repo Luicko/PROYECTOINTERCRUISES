@@ -197,6 +197,19 @@ def eliminatecruise():
         return redirect(url_for('main'))
     return render_template('eliminatecruise.html', form=form, cruises=cruises)
 
+@app.route('/delcruise', methods=['GET', 'POST'])
+def delcruise():
+    cruise_id = request.form.get('cruise_id', type=int)
+    cruise = Cruises.query.filter_by(cruise_id=cruise).first()
+    check = GuideCruises.query.filter_by(cruise_id=e.cruise_id).all()
+    if check:
+        for obj in check:
+            db.session.delete(obj)
+            db.session.commit()
+    db.session.delete(cruise)
+    db.session.commit()
+    return redirect(url_for('main'))
+
 
 @app.route('/eliminatecompany', methods=['GET', 'POST'])
 def eliminatecompany():

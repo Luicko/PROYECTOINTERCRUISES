@@ -9,7 +9,7 @@
 
     $(function() {
          $('button[name=del]').click(function(){
-            $.post("{{ url_for('eliminatecruise') }}", {
+            $.post("{{ url_for('delcruise') }}", {
             cruise_id: $(this).attr('id'),
           });
          });
