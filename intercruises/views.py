@@ -169,18 +169,14 @@ def regist():
 
 @app.route('/eliminateguide', methods=['GET', 'POST'])
 def eliminateguide():
-    guides = Guides.query.all()
-    form = ElimGuide()
-    if form.validate_on_submit():
-        e = Guides.query.filter_by(phone=form.phone.data).first()
-        check = GuideCruises.query.filter_by(phone=e.phone).all()
-        for obj in check:
-            db.session.delete(obj)
-            db.session.commit()
-        db.session.delete(e)
+    guide = Guides.query.filter_by(phone=request.form.get('phone', type=int))
+    check = GuideCruises.query.filter_by(phone=guide.phone).all()
+    for obj in check:
+        db.session.delete(obj)
         db.session.commit()
-        return redirect(url_for('main'))
-    return render_template('eliminateguide.html', form=form, guides=guides)
+    db.session.delete(e)
+    db.session.commit()
+    return redirect(url_for('main'))
 
 
 @app.route('/eliminatecruise', methods=['GET', 'POST'])
@@ -281,14 +277,6 @@ def editguide():
     newdni = request.form.get('newdni', type=str)
     delete = 'delete' in request.form
     guide = Guides.query.filter_by(phone=g).first()
-    if delete == 1:
-        check = GuideCruises.query.filter_by(phone=guide.phone).all()
-        for obj in check:
-            db.session.delete(obj)
-            db.session.commit()
-        db.session.delete(guide)
-        db.session.commit()
-        return redirect(url_for('main'))
     if newname and newname != guide.guidename:
         guide.guidename = newname
     if newemail and newemail != guide.email:
