@@ -94,7 +94,7 @@ def assignguide():
 def createguide():
     form = CreateGuide()
     if form.validate_on_submit():
-        language = [form.language.data]
+        language = form.language.getlist
         res = ""
         for x in language:
             res = res + x[0] + "-"
@@ -175,7 +175,7 @@ def eliminateguide():
     for obj in check:
         db.session.delete(obj)
         db.session.commit()
-    db.session.delete(e)
+    db.session.delete(guide)
     db.session.commit()
     return redirect(url_for('main'))
 
