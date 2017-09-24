@@ -257,13 +257,12 @@ def eliminateassign(cruise_id, date):
     cruise = Cruises.query.filter_by(cruise_id=cruise_id).first_or_404()
     form = ElimAss()
     if form.validate_on_submit():
-        if form.check.data:
-            date = converter(form.date.data)
-            e = GuideCruises.query.filter_by(date=date, cruise_id=form.hidden.data).all()
-            for obj in e:
-                db.session.delete(obj)
-                db.session.commit()
-            return redirect(url_for('main'))
+        date = converter(form.date.data)
+        e = GuideCruises.query.filter_by(date=date, cruise_id=form.hidden.data).all()
+        for obj in e:
+            db.session.delete(obj)
+            db.session.commit()
+        return redirect(url_for('main'))
     return render_template('eliminateassign.html', form=form, assign=assign, cruise=cruise, date=date)
 
 
