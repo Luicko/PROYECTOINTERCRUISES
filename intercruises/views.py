@@ -24,7 +24,10 @@ def before_request():
     g.user = current_user
 
 def converter(date):
-    date = datetime.strptime(date, '%d/%M/%Y').date()
+  if type(date) == str:
+    date = datetime.strptime(date, '%d/%m/%Y').date()
+    return date
+  else:
     date = datetime.strftime(date, '%d/%m/%Y')
     return date
 
@@ -70,8 +73,7 @@ def finalassign():
     cruise = request.form.get('optradio', type=int)
     phones = request.form.getlist('phones[]')
     date = request.form.get('date', type=str)
-    date = datetime.strptime(date, '%d/%M/%Y').date()
-    date = datetime.strftime(date, '%d/%m/%Y')
+    date = converter(date)
     if phones and not GuideCruises.query.filter_by(cruise_id=cruise, date=date).all():
         for phone in phones:
             entry = GuideCruises(cruise_id=cruise, date=date, phone=phone)
@@ -88,8 +90,7 @@ def assignguide():
     x = request.form.get('iddate', type=str)
     shi,date = x.split(",")
     shi = int(shi)
-    date = datetime.strptime(date, '%d/%M/%Y').date()
-    date = datetime.strftime(date, '%d/%m/%Y')
+    date = converter(date)
     guidecruise = GuideCruises.query.filter_by(cruise_id=shi, date=date).first()
     guide = Guides.query.filter_by(phone=pho).first_or_404()
     newassign = guidecruise
@@ -251,8 +252,7 @@ def delcompany(companyname):
 
 @app.route('/eliminateassign/<cruise_id>/<date>', methods=['GET', 'POST'])
 def eliminateassign(cruise_id, date):
-    date = datetime.strptime(date, '%d/%M/%Y').date()
-    date = datetime.strftime(date, '%d/%m/%Y')
+    date = converter(date)
     assign = GuideCruises.query.filter_by(cruise_id=cruise_id, date=date).first_or_404()
     cruise = Cruises.query.filter_by(cruise_id=assign.cruise_id).first_or_404()
     form = ElimAss()
@@ -288,8 +288,7 @@ def guide(phone):
 @app.route('/deleteassign', methods=['GET', 'POST'])
 def deleteassign():
     date = request.form.get('date')
-    date = datetime.strptime(date, '%d/%M/%Y').date()
-    date = datetime.strftime(date, '%d/%m/%Y')
+    date = converter(date)
     guide = request.form.get('phone', type=int)
     e = GuideCruises.query.filter_by(date=date, phone=guide).first()
     db.session.delete(e)
@@ -327,8 +326,7 @@ def editguide():
 def addmultiple():
     phones = request.form.getlist('phones[]')
     date = request.form.get('date', type=str)
-    date = datetime.strptime(date, '%d/%M/%Y').date()
-    date = datetime.strftime(date, '%d/%m/%Y')
+    date = converter(date)
     cruise_id = request.form.get('cruise_id', type=int)
     if phones:
         try:
@@ -346,8 +344,7 @@ def addmultiple():
 def delmultiple():
     phones = request.form.getlist('phones[]')
     date = request.form.get('date', type=str)
-    date = datetime.strptime(date, '%d/%M/%Y').date()
-    date = datetime.strftime(date, '%d/%m/%Y')
+    date = converter(date)
     cruise_id = request.form.get('cruise_id', type=int)
     if phones:
         try:
@@ -363,11 +360,9 @@ def delmultiple():
 def copy():
     old_date = request.form.get('old_date', type=str)
     cruise_id = request.form.get('cruise_id', type=int)
-    old_date = datetime.strptime(old-_date, '%d/%M/%Y').date()
-    old_date = datetime.strftime(olddate, '%d/%m/%Y')
+    old_date = converter(old_date)
     new_date = request.form.get('new_date', type=str)
-    new_date = datetime.strptime(new_date, '%d/%M/%Y').date()
-    new_date = datetime.strftime(new_date, '%d/%m/%Y')
+    new_date = converter(new_date)
     old = GuideCruises.query.filter_by(date=old_date, cruise_id=cruise_id).all()
     if new_date:
         try:
