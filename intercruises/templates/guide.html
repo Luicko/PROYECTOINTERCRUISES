@@ -21,7 +21,7 @@
             newdni: $('input[name=newdni]').val(),
             g: {{ guide.phone }}
           });
-            window.location = "{{ url_for(guideadmin) }}";
+            window.location = "{{ url_for('guideadmin') }}";
          });
       });
  </script>
