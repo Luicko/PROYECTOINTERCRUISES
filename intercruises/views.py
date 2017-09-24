@@ -52,7 +52,7 @@ def main():
     cruisecompany = CruiseCompany.query.order_by(CruiseCompany.companyname).all()
     guidecruises = GuideCruises.query.group_by(GuideCruises.date, GuideCruises.cruise_id).order_by(GuideCruises.date).all()
     for elem in guidecruises:
-        guidecruises.date = converter(guidecruises.date)
+        elem.date = converter(elem.date)
     return render_template('main.html', guides=guides, cruises=cruises, cruisecompany=cruisecompany, guidecruises=guidecruises)
 
 
