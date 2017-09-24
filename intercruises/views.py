@@ -97,7 +97,7 @@ def createguide():
         language = form.language.data
         res = ""
         for x in language:
-            res = res + x[0] + "-"
+            res = res + x + "-"
         res[0:len(res)-1]
         g = Guides(guidename=form.guidename.data, phone=form.phonenumber.data,
             email=form.email.data, guidetype=form.guidetype.data, guidecontract=form.guidecontract.data, 
