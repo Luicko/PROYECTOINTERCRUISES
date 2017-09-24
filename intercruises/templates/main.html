@@ -8,7 +8,7 @@
   overflow-y:scroll;
 }
 
-.scroll-area2{
+#scroll-area2{
   height: 150px;
   overflow-y:scroll;
 }
@@ -83,7 +83,7 @@
       <label><h1>List of Calls</h1><label>
       <p>
         <div class="col-md-6">
-          <div class="scroll-area2">
+          <div class="col-md-6" id="scroll-area2">
             {% for ship in guidecruises %}
               {% for cruise in cruises %}
                 {% if ship.cruise_id == cruise.cruise_id %}
