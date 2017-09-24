@@ -94,14 +94,14 @@ def assignguide():
 def createguide():
     form = CreateGuide()
     if form.validate_on_submit():
-        lan = [form.spanish.data, form.english.data, form.german.data, form.italian.data, form.other.data]
-        res = "";
+        language = [form.spanish.data, form.english.data, form.german.data, form.italian.data, form.other.data]
+        res = ""
         for x in language:
             res = res + x + "-"
-            res[0:len(res)-1]
+        res[0:len(res)-1]
         g = Guides(guidename=form.guidename.data, phone=form.phonenumber.data,
             email=form.email.data, guidetype=form.guidetype.data, guidecontract=form.guidecontract.data, 
-            language=lan, dni=form.dni.data, language=res)
+            dni=form.dni.data, language=res)
         try:
             db.session.add(g)
             db.session.commit()
