@@ -169,7 +169,8 @@ def regist():
 
 @app.route('/eliminateguide', methods=['GET', 'POST'])
 def eliminateguide():
-    guide = Guides.query.filter_by(phone=request.form.get('phone', type=int))
+    p = request.form.get('phone', type=int)
+    guide = Guides.query.filter_by(phone=p)
     check = GuideCruises.query.filter_by(phone=guide.phone).all()
     for obj in check:
         db.session.delete(obj)
