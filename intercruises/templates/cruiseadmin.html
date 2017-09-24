@@ -94,7 +94,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-md-6"><label class='control-label'>Copy to:</label> {{ form.date(class='form-control') }}
+  <div class="col-md-6"><label class='control-label'>Copy to:</label> {{ form.date(class='form-control', placeholder='dd-mm-YY') }}
   <button name="copy" class="{{ main.date.strftime('%d-%m-%Y') }}" id="{{ main.cruise_id }}">
     <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
   </button>
