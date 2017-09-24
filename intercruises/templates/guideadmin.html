@@ -28,17 +28,6 @@
 {% block content %}
 {% set title = "Guide Aministration" %}
 <div class="container">
-<div class="page-header">
-    <h2>{{ 'Select a guide' }}</h2>
-  </div>
-     <div class="scroll-area">
-  <ul>
- 	{% for guide in guides %}
-         <li><a href="{{ url_for('guide', phone=guide.phone) }}"><label>{{ guide.guidename }} - Phone: {{ guide.phone }}</label></a></li>
-	{% endfor %}
-</ul>
-	</div> 
-
   <table id="table-guides" class="table table-bordered">
     <thead>
       <tr>
@@ -47,6 +36,9 @@
         </th>
         <th>
           Phone
+        </th>
+        <th>
+          -
         </th>
       </tr>
     </thead>
