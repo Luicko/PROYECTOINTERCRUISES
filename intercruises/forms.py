@@ -58,3 +58,10 @@ class ElimComp(Form):
     companyname = StringField('Company Name')
     check = BooleanField('Sure', default=False)
     submit = SubmitField('X')
+
+class ElimAss(Form):
+    hidde = HiddenField('hidde')
+    cruisename = StringField('Cruise')
+    date = DateField('Date', format='%d/%M/%Y')
+    check = BooleanField('Sure', default=False)
+    submit = SubmitField('X')

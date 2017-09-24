@@ -1,0 +1,30 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block content %}
+{% set title = "Delete Company" %}
+<div class="container">
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <script>
+      var messages = {{ messages | safe }};
+      for (var i=0; i<messages.length; i++) {
+        alert(messages[i]);
+      }
+    </script>
+  {% endif %}
+{% endwith %}
+<div class="page-header">
+    <h2>{{ 'Eliminating a Call' }}</h2>
+  </div>
+  <form action='' method='post'>
+    {{ form.hidden_tag() }}
+    <div><label class='control-label'>Cruise:</label> {{ form.cruisename(class='form-control', readonly=True, value=cruise.cruisename) }}</div>
+    <div><label class='control-label'>Date:</label> {{ form.date(class='form-control', readonly=True, value=assign.date) }}</div>
+    {{ form.hidde }}
+    <div><label class='control-label'>Check for Sure:</label> {{ form.check(class='form-control') }}</div><br>
+    <div>{{ form.submit(class='btn btn-primary') }}</div>
+
+  </form>
+  <a href="{{ url_for('main') }}">Exit</a>
+</div>
+{% endblock %}

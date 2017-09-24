@@ -88,7 +88,8 @@
               {% for cruise in cruises %}
                 {% if ship.cruise_id == cruise.cruise_id %}
                   <div>
-                    <a href="{{ url_for('cruiseadmin', cruise_id=ship.cruise_id, date=ship.date) }}"><button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg-{{ ship.date }}">{{ cruise.cruisename }} - {{ ship.date }}</button>
+                    <a href="{{ url_for('cruiseadmin', cruise_id=ship.cruise_id, date=ship.date) }}"><button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg-{{ ship.date }}">{{ cruise.cruisename }} - {{ ship.date }}</button> - <a href="{{ url_for('eliminateassign', id = ship.id) }}">
+          <button type="button" class="btn btn-primary" name="del">X</button></a>
                   </div></a>
                 {% endif %}
               {% endfor %}
