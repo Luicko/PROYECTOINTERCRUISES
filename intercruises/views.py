@@ -23,6 +23,10 @@ from .utils import get_redirect_target
 def before_request():
     g.user = current_user
 
+def converter(date):
+    date = datetime.strptime(date, '%d/%M/%Y').date()
+    return date
+
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -377,8 +381,3 @@ def cruiseadmin(cruise_id, date):
     for phone in guidecruises:
         employed.append(phone.phone)
     return render_template('cruiseadmin.html', form=form, guides=guides, guidecruises=guidecruises, cruise=cruise, date=date, employed=employed, main=main)
-
-
-    def converter(date):
-        date = datetime.strptime(date, '%d/%M/%Y').date()
-        return date
