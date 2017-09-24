@@ -17,44 +17,6 @@
   }
   </style>
 {% endblock %}
-{% block scripts %}
-{{ super() }}
- <script type='text/javascript'>
-     $(function() {
-         $('input[name=send]').click(function(){
-            document.getElementById("demo").innerHTML = $('input[name=optradio2]:checked').val();
-            $.post("{{ url_for('assignguide') }}", {
-            phone: $('input[name=optradio2]:checked').val(),
-            iddate: $('input[name=optradio3]:checked').val()
-          });
-         });
-      });
-
-     $(function() {
-         $('button[name=add]').click(function(){
-            var elems = new Array();
-            var d = $(this).val();
-            var id = $(this).attr('id');
-            $('.adding:checked').each(function(){
-                  elems.push($(this).attr('value'));
-              });
-            document.getElementById("demo").innerHTML = elems;
-            $.ajax({
-        type: 'POST',
-        url: '{{ url_for("addmultiple") }}',
-        data: {phones: elems, date: d, cruise_id: id}});
-         });
-      });
-
-     $(function() {
-         $('button[name=del]').click(function(){
-            $.post("{{ url_for('delmultiple') }}", {
-            phone: $('input[name=adding]:checked').val(),
-          });
-         });
-      });
- </script>
-{% endblock %}
 {% block content %}
 {% if current_user.is_authenticated %}
 <div class="row">
