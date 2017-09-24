@@ -275,7 +275,6 @@ def editguide():
     newemail = request.form.get('newemail', type=str)
     newphone = request.form.get('newphone', type=int)
     newdni = request.form.get('newdni', type=str)
-    delete = 'delete' in request.form
     guide = Guides.query.filter_by(phone=g).first()
     if newname and newname != guide.guidename:
         guide.guidename = newname
