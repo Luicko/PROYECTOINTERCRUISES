@@ -240,7 +240,7 @@ def delcompany(companyname):
     return render_template('delcompany.html', form=form, company=company)
 
 
-@app.route('/eliminateassign/<cruise_id>/date', methods=['GET', 'POST'])
+@app.route('/eliminateassign/<cruise_id>/<date>', methods=['GET', 'POST'])
 def eliminateassign(cruise_id, date):
     date = datetime.strptime(form.date.data, '%d/%M/%Y').date()
     assign = GuideCruises.query.filter_by(cruise_id=cruise_id, date=date).first_or_404()
