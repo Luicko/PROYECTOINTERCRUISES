@@ -222,19 +222,20 @@ def delcompany(companyname):
     company = CruiseCompany.query.filter_by(companyname=companyname).first()
     form = ElimComp()
     if form.validate_on_submit():
-        e = CruiseCompany.query.filter_by(companyname=form.companyname.data).first()
-        first = Cruises.query.filter_by(cruisecompany=form.companyname.data).all()
-        for obj in first:
-            check = GuideCruises.query.filter_by(cruise_id=obj.cruise_id).all()
-            if check:
-                for cru in check:
-                    db.session.delete(cru)
-                    db.session.commit()
-            db.session.delete(obj)
+        if form.check.data:
+            e = CruiseCompany.query.filter_by(companyname=form.companyname.data).first()
+            first = Cruises.query.filter_by(cruisecompany=form.companyname.data).all()
+            for obj in first:
+                check = GuideCruises.query.filter_by(cruise_id=obj.cruise_id).all()
+                if check:
+                    for cru in check:
+                        db.session.delete(cru)
+                        db.session.commit()
+                db.session.delete(obj)
+                db.session.commit()
+            db.session.delete(e)
             db.session.commit()
-        db.session.delete(e)
-        db.session.commit()
-        return redirect(url_for('main'))
+            return redirect(url_for('main'))
     return render_template('delcompany.html', form=form, company=company)
 
 
