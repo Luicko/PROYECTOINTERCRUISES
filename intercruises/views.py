@@ -128,6 +128,8 @@ def createcruise():
     cruisecompany = CruiseCompany.query.all()
     if form.validate_on_submit():
         c = Cruises(cruisename=form.cruisename.data, cruisecompany=request.form.get('optradio', type=str), shortname=form.cruiseshort.data)
+        if c.cruisecompany == None:
+            flash('Something went wrong!')
         try:
             db.session.add(c)
             db.session.commit()
