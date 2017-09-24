@@ -73,7 +73,7 @@
           {% endif %}
         {% endfor %}
     </ul>
-    <button name="del" type="button" class="btn btn-default btn-xs" value="{{ main.date }}" id="{{ main.cruise_id }}">
+    <button name="del" type="button" class="btn btn-default btn-xs" value="{{ main.date.strftime('%d-%m-%Y') }}" id="{{ main.cruise_id }}">
       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
     </button>
   </div>
@@ -88,14 +88,14 @@
         {% endif %}
       {% endfor %}
     </ul>
-    <button name="add" type="button" class="btn btn-default btn-xs" value="{{ main.date }}" id="{{ main.cruise_id }}">
+    <button name="add" type="button" class="btn btn-default btn-xs" value="{{ main.date.strftime('%d-%m-%Y') }}" id="{{ main.cruise_id }}">
       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     </button>
   </div>
 </div>
 <div class="row">
   <div class="col-md-6"><label class='control-label'>Copy to:</label> {{ form.date(class='form-control') }}
-  <button name="copy" class="{{ main.date }}" id="{{ main.cruise_id }}">
+  <button name="copy" class="{{ main.date.strftime('%d-%m-%Y') }}" id="{{ main.cruise_id }}">
     <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
   </button>
   <a href="{{ url_for('main') }}">Exit</a>
