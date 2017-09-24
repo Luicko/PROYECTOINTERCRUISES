@@ -207,7 +207,7 @@ def eliminatecompany():
     return render_template('eliminatecompany.html', cruisecompany=cruisecompany)
 
 
-@app.route('/delcompany/<companyname>' methods=['GET', 'POST'])
+@app.route('/delcompany/<companyname>', methods=['GET', 'POST'])
 def delcompany(companyname):
     company = CruiseCompany.query.filter_by(companyname=companyname).first()
     form = ElimComp()
