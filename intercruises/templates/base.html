@@ -42,7 +42,7 @@
       <li><a href="{{ url_for('eliminatecompany') }}">Delete Company</a></li>
     </ul>
   </li>
-  <li role="presentation"<button class="btn btn-default"><button class="btn btn-default"><a href="{{ url_for('guideadmin') }}">Guide Administration</a></button></li>
+  <li role="presentation"><button class="btn btn-default"><a href="{{ url_for('guideadmin') }}">Guide Administration</a></button></li>
   {% if current_user.username == 'samhernandez' %}
   <li role="presentation"><a href="{{ url_for('regist') }}">Create User</a></li>
   {% endif %}

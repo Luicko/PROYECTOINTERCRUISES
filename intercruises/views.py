@@ -219,7 +219,7 @@ def eliminatecompany():
 
 
 @app.route('/delcompany/<companyname>', methods=['GET', 'POST'])
-def delcompany(companyname, form):
+def delcompany(companyname):
     company = CruiseCompany.query.filter_by(companyname=companyname).first()
     form = ElimComp()
     if form.validate_on_submit():

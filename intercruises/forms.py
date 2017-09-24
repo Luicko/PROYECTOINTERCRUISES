@@ -55,6 +55,6 @@ class ElimCru(Form):
     submit = SubmitField('X')
 
 class ElimComp(Form):
-    companyname = StringField('Company Name', validators=[validators.DataRequired])
+    companyname = StringField('Company Name')
     check = BooleanField('Sure', default=False)
     submit = SubmitField('X')
