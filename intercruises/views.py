@@ -200,7 +200,7 @@ def eliminatecruise():
 @app.route('/delcruise', methods=['GET', 'POST'])
 def delcruise():
     cruise_id = request.form.get('cruise_id', type=int)
-    cruise = Cruises.query.filter_by(cruise_id=cruise).first()
+    cruise = Cruises.query.filter_by(cruise_id=cruise_id).first()
     check = GuideCruises.query.filter_by(cruise_id=e.cruise_id).all()
     if check:
         for obj in check:
