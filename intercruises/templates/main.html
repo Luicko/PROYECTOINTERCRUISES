@@ -58,7 +58,7 @@
 {% block content %}
 {% if current_user.is_authenticated %}
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-6">
     <div class="jumbotron">
       <label><h1>Cruise Appointing</h1></label>
         <p>
@@ -79,8 +79,7 @@
   </div>
   <div class="col-md-6">
     <div id="second" class="jumbotron">
-      <label><h1>List of Calls</h1><label>
-      <div class="col-md-6">
+      <label><h1>List of Calls</h1></label>
         <p>
             {% for ship in guidecruises %}
               {% for cruise in cruises %}
@@ -92,12 +91,9 @@
                 {% endif %}
               {% endfor %}
             {% endfor %}
-          </div>
         </p>
     </div>
   </div>
 </div>
-{% else %}
-<h2>YOU GOTTA LOG IN FIRST</h2>
 {% endif %}
 {% endblock %}
