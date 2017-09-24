@@ -19,6 +19,7 @@
             newemail: $('input[name=newemail]').val(),
             newphone: $('input[name=newphone]').val(),
             newdni: $('input[name=newdni]').val(),
+            delete: $('input[name=delete]').val(),
             g: {{ guide.phone }}
           });
          });
@@ -55,6 +56,7 @@
   Phone: <input name="newphone" type="text" value="{{ guide.phone }}"></input>
   Email: <input name="newemail" type="text" value="{{ guide.email }}"></input>
   DNI: <input name="newdni" type="text" value="{{ guide.dni }}"></input>
+  Delete : <input type="checkbox" name="delete"></input>
 
 <button name="upper" type="button" class="btn btn-default btn-sm">
   <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>

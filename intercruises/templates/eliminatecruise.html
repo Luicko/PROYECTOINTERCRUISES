@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% set title = "Delete Cruise" %}
+{% block scripts %}
+{{ super() }}
+    <script type='text/javascript'>
+    $(document).ready(function() {
+     $('#table-cruises').dynatable();
+    });
+
+    $(function() {
+         $('button[name=del]').click(function(){
+            $.post("{{ url_for('eliminatecruise') }}", {
+            cruise_id: $(this).attr('id'),
+          });
+         });
+      });
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h2>Select</h2>
+  </div>
+  <table id="table-cruises" class="table table-bordered">
+    <thead>
+      <tr>
+        <th>
+          Cruise
+        </th>
+        <th>
+          Company
+        </th>
+      </tr>
+    </thead>
+  <tbody>
+  {% for cruise in cruises %}
+    <tr>
+      <form action='' method='post'>
+        <td>{{ cruise.cruisename }} <span class="glyphicon glyphicon-cd" aria-hidden="true"></span></a></td>
+        <td>{{ cruise.companyname }}</td>
+        <td><button type="button" class="btn btn-primary" name="del" id="{{ cruise.cruise_id }}">X</button></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+</div>
+{% endblock %}

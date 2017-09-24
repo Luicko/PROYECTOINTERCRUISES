@@ -1,6 +1,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
+{% set title = "Delete Company" %}
 <div class="container">
 {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -12,14 +13,16 @@
     </script>
   {% endif %}
 {% endwith %}
-  <div class="page-header">
-    <h3>Log In</h3>
+<div class="page-header">
+    <h2>{{ 'Eliminating a Cruise Company' }}</h2>
   </div>
   <form action='' method='post'>
     {{ form.hidden_tag() }}
-    <div><label class='control-label'>Nickname:</label> {{ form.username(class='form-control') }}</div>
-    <div><label class='control-label'>Password:</label> {{ form.password(class='form-control') }}</div>
+    <div><label class='control-label'>Company Name:</label> {{ form.companyname(class='form-control', readonly=True, value=company.companyname) }}</div>
+    <div><label class='control-label'>Check for Sure:</label> {{ form.check(class='form-control') }}</div><br>
     <div>{{ form.submit(class='btn btn-primary') }}</div>
+
   </form>
+  <a href="{{ url_for('main') }}">Exit</a>
 </div>
 {% endblock %}

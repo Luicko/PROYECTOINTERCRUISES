@@ -27,6 +27,8 @@ class CreateGuide(Form):
     dni = StringField('DNI')
     guidetype = RadioField('Type', choices=[('se', 'Self-Employed'),('dcl', 'Declared')])
     guidecontract = RadioField('Contract', choices=[('of', 'Official'),('nof', 'Non-Official')])
+    language = SelectMultipleField(u'Language', choices=[('esp', 'Spanish'), ('ger', 'German'), ('eng', 'English'),
+        ('ita', 'Italian'), ('ext', 'Other')])
     spanish = BooleanField('ESP')
     german = BooleanField('GER')
     english = BooleanField('ENG')
@@ -49,3 +51,14 @@ class RegistCruise(Form):
 class mainform(Form):
     hidde = HiddenField('hidde', validators=[validators.DataRequired])
     date = DateField('Date', format='%d/%M/%Y', validators=[validators.DataRequired])
+
+class ElimCru(Form):
+    hidden = HiddenField('hidden', validators=[validators.DataRequired])
+    cruisename = StringField('Cruise Name', validators=[validators.DataRequired])
+    check = BooleanField('Sure', default=False)
+    submit = SubmitField('X')
+
+class ElimComp(Form):
+    companyname = StringField('Company Name', validators=[validators.DataRequired])
+    check = BooleanField('Sure', default=False)
+    submit = SubmitField('X')

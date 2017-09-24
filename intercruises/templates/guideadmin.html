@@ -1,5 +1,13 @@
 {% import "bootstrap/wtf.html" as wtf %}
 {% extends "base.html" %}
+{% block scripts %}
+{{ super() }}
+    <script type='text/javascript'>
+    $(document).ready(function() {
+     $('#table-guides').dynatable();
+    });
+    </script>
+{% endblock %}
 {% block styles %}
   {{ super() }}
   <style type="text/css">
@@ -22,6 +30,27 @@
 	{% endfor %}
 </ul>
 	</div> 
+
+  <table id="table-guides" class="table table-bordered">
+    <thead>
+      <tr>
+        <th>
+          Guide
+        </th>
+        <th>
+          Phone
+        </th>
+      </tr>
+    </thead>
+  <tbody>
+  {% for guide in guides %}
+    <tr>
+        <td><a href="{{ url_for('guide', phone=guide.phone) }}">{{ guide.guidename }} <span class="glyphicon glyphicon-cd" aria-hidden="true"></span></a></td>
+        <td><a href="{{ url_for('guide', phone=guide.phone) }}">{{ guide.phone }}</a></td>
+    </tr>
+  {% endfor %}
+  </tbody>
+  </table>
   <a href="{{ url_for('main') }}">Exit</a>
 </div>
 {% endblock %}
