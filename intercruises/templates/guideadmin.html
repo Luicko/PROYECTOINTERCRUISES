@@ -12,6 +12,7 @@
             $.post("{{ url_for('eliminateguide') }}", {
             phone: $(this).attr('id'),
           });
+            window.location = "{{ url_for(main) }}";
          });
       });
     </script>

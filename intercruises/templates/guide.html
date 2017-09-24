@@ -21,16 +21,7 @@
             newdni: $('input[name=newdni]').val(),
             g: {{ guide.phone }}
           });
-         });
-      });
-
-     $(function() {
-         $('button[name=del]').click(function(){
-            $.post("{{ url_for('deleteassign') }}", {
-            date: $(this).val(),
-            phone: {{ guide.phone }}
-          });
-          location.reload(true);
+            window.location = "{{ url_for(guideadmin) }}";
          });
       });
  </script>
