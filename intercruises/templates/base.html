@@ -29,10 +29,10 @@
     </button>
     <ul class="dropdown-menu">
       <li><a href="{{ url_for('createcruise') }}">Create Cruise</a></li>
-      <li><a href="{{ url_for('eliminatecruise') }}">Delete Action</a></li>
+      <li><a href="{{ url_for('eliminatecruise') }}">Delete Cruise</a></li>
     </ul>
   </li>
-  <li role="presentation"><a href="{{ url_for('createguide') }}">Create Guide</a></li>
+  <li role="presentation"><a href="{{ url_for('createguide') }}"><button class="btn btn-default">Create Guide</button></a></li>
   <li role="presentation">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Cruises <span class="caret"></span>
@@ -42,7 +42,7 @@
       <li><a href="{{ url_for('eliminatecompany') }}">Delete Company</a></li>
     </ul>
   </li>
-  <li role="presentation"><a href="{{ url_for('guideadmin') }}">Guide Administration</a></li>
+  <li role="presentation"><a href="{{ url_for('guideadmin') }}"><button class="btn btn-default">Guide Administration</button></a></li>
   {% if current_user.username == 'samhernandez' %}
   <li role="presentation"><a href="{{ url_for('regist') }}">Create User</a></li>
   {% endif %}

@@ -27,8 +27,8 @@ class CreateGuide(Form):
     dni = StringField('DNI')
     guidetype = RadioField('Type', choices=[('se', 'Self-Employed'),('dcl', 'Declared')])
     guidecontract = RadioField('Contract', choices=[('of', 'Official'),('nof', 'Non-Official')])
-    language = SelectMultipleField(u'Language', choices=[('esp', 'Spanish'), ('ger', 'German'), ('eng', 'English'),
-        ('ita', 'Italian'), ('ext', 'Other')], option_widget=widgets.CheckboxInput(),
+    language = SelectMultipleField(u'Language', choices=[('Spanish', 'Spanish'), ('German', 'German'), ('English', 'English'),
+        ('Italian', 'Italian'), ('Other', 'Other')], option_widget=widgets.CheckboxInput(),
         widget=widgets.ListWidget(prefix_label=False))
     another = BooleanField('Another', default=False)
     submit = SubmitField('Create')
