@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, RadioField, validators, IntegerField, BooleanField, DateField, HiddenField, SubmitField, SelectMultipleField
+from wtforms import StringField, PasswordField, RadioField, validators, IntegerField, BooleanField, DateField, HiddenField, SubmitField, SelectMultipleField, widgets
 
 class LoginForm(Form):
     username = StringField('Username', validators=[validators.DataRequired()])
@@ -28,12 +28,8 @@ class CreateGuide(Form):
     guidetype = RadioField('Type', choices=[('se', 'Self-Employed'),('dcl', 'Declared')])
     guidecontract = RadioField('Contract', choices=[('of', 'Official'),('nof', 'Non-Official')])
     language = SelectMultipleField(u'Language', choices=[('esp', 'Spanish'), ('ger', 'German'), ('eng', 'English'),
-        ('ita', 'Italian'), ('ext', 'Other')])
-    spanish = BooleanField('ESP')
-    german = BooleanField('GER')
-    english = BooleanField('ENG')
-    italian = BooleanField('ITA')
-    other = BooleanField('EXT')
+        ('ita', 'Italian'), ('ext', 'Other')], option_widget=widgets.CheckboxInput(),
+        widget=widgets.ListWidget(prefix_label=False))
     another = BooleanField('Another', default=False)
     submit = SubmitField('Create')
 
