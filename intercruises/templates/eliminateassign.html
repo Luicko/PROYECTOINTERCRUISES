@@ -20,7 +20,6 @@
     {{ form.hidden_tag() }}
     <div><label class='control-label'>Cruise:</label> {{ form.cruisename(class='form-control', readonly=True, value=cruise.cruisename) }}</div>
     <div><label class='control-label'>Date:</label> {{ form.date(class='form-control', readonly=True, value=date.strftime('%d-%m-%Y')) }}</div>
-    {{ form.hidde }}
     <div><label class='control-label'>Check for Sure:</label> {{ form.check(class='form-control') }}</div><br>
     <div>{{ form.submit(class='btn btn-primary') }}</div>
 
