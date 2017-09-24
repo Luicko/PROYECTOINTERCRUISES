@@ -25,10 +25,10 @@ def before_request():
 
 def converter(date):
   if type(date) == str:
-    date = datetime.strptime(date, '%d/%m/%Y').date()
+    date = datetime.strptime(date, '%d-%m-%Y').date()
     return date
   else:
-    date = datetime.strftime(date, '%d/%m/%Y')
+    date = datetime.strftime(date, '%d-%m-%Y')
     return date
 
 
@@ -375,7 +375,7 @@ def copy():
 
 @app.route('/cruiseadmin/<cruise_id>/<date>', methods=['GET', 'POST'])
 def cruiseadmin(cruise_id, date):
-    date = datetime.strptime(date, '%d/%m/%Y').date()
+    date = datetime.strptime(date, '%d-%m-%Y').date()
     guidecruises = GuideCruises.query.filter_by(cruise_id=cruise_id, date=date).all()
     main = GuideCruises.query.filter_by(cruise_id=cruise_id, date=date).first()
     guides = Guides.query.all()
