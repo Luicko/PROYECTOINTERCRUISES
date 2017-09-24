@@ -15,7 +15,7 @@ from werkzeug.security import generate_password_hash, \
 from sqlalchemy import func
 from . import app, db
 from .models import *
-from .forms import LoginForm, CreateGuide, CreateCruise, RegistrationForm, CreateCompany, RegistCruise, mainform
+from .forms import *
 from .utils import get_redirect_target
 
 
@@ -94,10 +94,14 @@ def assignguide():
 def createguide():
     form = CreateGuide()
     if form.validate_on_submit():
-        language = form.spanish.data, form.english.data, form.german.data, form.italian.data, form.other.data
+        language = [form.spanish.data, form.english.data, form.german.data, form.italian.data, form.other.data]
+        res = "";
+        for x in language:
+            res = res + x + "-"
+            res[0:len(res)-1]
         g = Guides(guidename=form.guidename.data, phone=form.phonenumber.data,
             email=form.email.data, guidetype=form.guidetype.data, guidecontract=form.guidecontract.data,
-            language=language, dni=form.dni.data)
+            language=language, dni=form.dni.data, language=res)
         try:
             db.session.add(g)
             db.session.commit()
@@ -169,11 +173,10 @@ def eliminateguide():
     form = ElimGuide()
     if form.validate_on_submit():
         e = Guides.query.filter_by(phone=form.phone.data).first()
-        check = GuideCruises.query.all()
+        check = GuideCruises.query.filter_by(phone=e.phone).all()
         for obj in check:
-            if e.phone == obj.phone:
-                db.session.delete(obj)
-                db.session.commit()
+            db.session.delete(obj)
+            db.session.commit()
         db.session.delete(e)
         db.session.commit()
         return redirect(url_for('main'))
@@ -184,8 +187,14 @@ def eliminateguide():
 def eliminatecruise():
     cruises = Cruises.query.all()
     form = ElimCru()
-    if form.validate_on_submit():
-        e = Cruises.query.filter_by(cruise_id=form.cruise_id.data).first()
+    cruise = request.form.get('id', type=int)
+    if cruise:
+        e = Cruises.query.filter_by(cruise_id=cruise).first()
+        check = GuideCruises.query.filter_by(cruise_id=e.cruise_id).all()
+        if check:
+            for obj in check:
+                db.session.delete(obj)
+                db.session.commit()
         db.session.delete(e)
         db.session.commit()
         return redirect(url_for('main'))
@@ -195,13 +204,28 @@ def eliminatecruise():
 @app.route('/eliminatecompany', methods=['GET', 'POST'])
 def eliminatecompany():
     cruisecompany = CruiseCompany.query.all()
+    return render_template('eliminatecompany.html', cruisecompany=cruisecompany)
+
+
+@app.route('/delcompany/<companyname>' methods=['GET', 'POST'])
+def delcompany(companyname):
+    company = CruiseCompany.query.filter_by(companyname=companyname).first()
     form = ElimComp()
     if form.validate_on_submit():
         e = CruiseCompany.query.filter_by(companyname=form.companyname.data).first()
+        first = Cruises.query.filter_by(cruisecompany=form.companyname.data).all()
+        for obj in first:
+            check = GuideCruises.query.filter_by(cruise_id=obj.cruise_id).all()
+            if check:
+                for cru in check:
+                    db.session.delete(cru)
+                    db.session.commit()
+            db.session.delete(obj)
+            db.session.commit()
         db.session.delete(e)
         db.session.commit()
         return redirect(url_for('main'))
-    return render_template('eliminatecompany.html', form=form, cruisecompany=cruisecompany)
+    return render_template('delcompany.html', form=form, company=company)
 
 
 @app.route('/eliminateassign', methods=['GET', 'POST'])
@@ -227,7 +251,7 @@ def guideadmin():
 def guide(phone):
     guidecruises = GuideCruises.query.filter_by(phone=phone).order_by(GuideCruises.date).all()
     guide = Guides.query.filter_by(phone=phone).first_or_404()
-    language = guide.language.split()
+    language = guide.language.split("-")
     crui = Cruises.query.all()
     cruises = []
     for obj in guidecruises:
@@ -255,7 +279,16 @@ def editguide():
     newemail = request.form.get('newemail', type=str)
     newphone = request.form.get('newphone', type=int)
     newdni = request.form.get('newdni', type=str)
+    delete = 'delete' in requist.form
     guide = Guides.query.filter_by(phone=g).first()
+    if delete:
+        check = GuideCruises.query.filter_by(phone=guide.phone).all()
+        for obj in check:
+            db.session.delete(obj)
+            db.session.commit()
+        db.session.delete(guide)
+        db.session.commit()
+        return redirect(url_for('main'))
     if newname and newname != guide.guidename:
         guide.guidename = newname
     if newemail and newemail != guide.email:
