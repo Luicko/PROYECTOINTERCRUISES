@@ -45,7 +45,7 @@ def index():
 def main():
     guides = Guides.query.all()
     cruises = Cruises.query.all()
-    cruisecompany = CruiseCompany.query.order_by(CruiseCompany.name).all()
+    cruisecompany = CruiseCompany.query.order_by(CruiseCompany.companyname).all()
     guidecruises = GuideCruises.query.group_by(GuideCruises.date, GuideCruises.cruise_id).order_by(GuideCruises.date).all()
     return render_template('main.html', guides=guides, cruises=cruises, cruisecompany=cruisecompany, guidecruises=guidecruises)
 
