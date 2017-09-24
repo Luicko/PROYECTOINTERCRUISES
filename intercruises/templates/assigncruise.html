@@ -37,7 +37,7 @@
   </div>
   <form action="" method='post'>
     <div><label class='control-label'>Cruise Company:</label> {{ form.companyname(class='form-control', readonly=True, value=cruisecompany) }}</div>
-    <div><label class='control-label'>Date:</label> {{ form.date(class='form-control') }}</div>
+    <div><label class='control-label'>Date:</label> {{ form.date(class='form-control', placeholder='dd-mm-YY') }}</div>
     <div><label class='control-label'>Cruises:</label></div>
     {% for cruise in cruises %}
             <div class="radio">
