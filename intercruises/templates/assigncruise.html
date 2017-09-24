@@ -14,8 +14,8 @@
                 optradio: $('input[name=optradio]:checked').val(),
                 phones: elems
             });
+            window.location = "{{ url_for('main') }}";
          });
-         window.location = "{{ url_for('main') }}";
       });
     </script>
 {% endblock %}
