@@ -65,7 +65,7 @@
         {% if obj.cruise_id == cruise.cruise_id %}
           <li>{{ obj.cruisename }} - {{ cruise.date }}
         <button name="del" type="button" value="{{ cruise.date }}" class="btn btn-default btn-xs">
-          <span class="glyphicon glyphicon-remove" aria-hidden="true" value="{{ cruise.date }}"></span>
+          <span class="glyphicon glyphicon-remove" aria-hidden="true" value="{{ cruise.date.strftime('%d-%m-%Y') }}"></span>
         </button></li>
         {% endif %}
       {% endfor %}
