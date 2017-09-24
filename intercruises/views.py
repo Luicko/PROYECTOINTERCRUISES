@@ -281,7 +281,7 @@ def editguide():
     newdni = request.form.get('newdni', type=str)
     delete = 'delete' in request.form
     guide = Guides.query.filter_by(phone=g).first()
-    if delete:
+    if delete == 1:
         check = GuideCruises.query.filter_by(phone=guide.phone).all()
         for obj in check:
             db.session.delete(obj)
