@@ -22,7 +22,7 @@
 {% block navbar %}
 {% if current_user.is_authenticated %}
 <ul class="nav nav-pills nav-justified">
-  <li role="presentation"><a href="{{ url_for('main') }}">Main Page</a></li>
+  <li role="presentation"><button class="btn btn-default"><a href="{{ url_for('main') }}">Main Page</a></button></li>
   <li role="presentation">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Cruises <span class="caret"></span>
@@ -32,17 +32,17 @@
       <li><a href="{{ url_for('eliminatecruise') }}">Delete Cruise</a></li>
     </ul>
   </li>
-  <li role="presentation"><a href="{{ url_for('createguide') }}"><button class="btn btn-default">Create Guide</button></a></li>
+  <li role="presentation"><button class="btn btn-default"><a href="{{ url_for('createguide') }}">Create Guide</a></button></li>
   <li role="presentation">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Cruises <span class="caret"></span>
+      Companies <span class="caret"></span>
     </button>
     <ul class="dropdown-menu">
       <li><a href="{{ url_for('createcompany') }}">Create Company</a></li>
       <li><a href="{{ url_for('eliminatecompany') }}">Delete Company</a></li>
     </ul>
   </li>
-  <li role="presentation"><a href="{{ url_for('guideadmin') }}"><button class="btn btn-default">Guide Administration</button></a></li>
+  <li role="presentation"<button class="btn btn-default">><a href="{{ url_for('guideadmin') }}">Guide Administration</a></button></li>
   {% if current_user.username == 'samhernandez' %}
   <li role="presentation"><a href="{{ url_for('regist') }}">Create User</a></li>
   {% endif %}

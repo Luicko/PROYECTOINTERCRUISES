@@ -28,7 +28,7 @@
   <tbody>
   {% for company in cruisecompany %}
     <tr>
-        <td>{{ company.companyname }} <span class="glyphicon glyphicon-cd" aria-hidden="true"></span></td>
+        <td>{{ company.companyname }}</td>
         <td><a href="{{ url_for('delcompany', companyname = company.companyname) }}"><button type="button" class="btn btn-primary" name="del" id="{{ company.companyname }}">X</button></a></td>
     </tr>
   {% endfor %}
