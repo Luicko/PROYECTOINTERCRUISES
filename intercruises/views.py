@@ -258,7 +258,7 @@ def eliminateassign(cruise_id, date):
     form = ElimAss()
     if form.validate_on_submit():
         if form.check.data:
-            e = GuideCruises.query.filter_by(date=converter(date), cruise_id=cruise_id).all()
+            e = GuideCruises.query.filter_by(date=converter(form.date.data), cruise_id=form.hidden.data).all()
             for obj in e:
                 db.session.delete(e)
                 db.session.commit()
