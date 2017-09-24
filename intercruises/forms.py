@@ -42,11 +42,11 @@ class CreateCompany(Form):
 
 class RegistCruise(Form):
     companyname = StringField('Company', validators=[validators.DataRequired])
-    date = DateField('Date', format='%d-%M-%Y', validators=[validators.DataRequired])
+    date = DateField('Date', format='%d-%m-%Y', validators=[validators.DataRequired])
 
 class mainform(Form):
     hidde = HiddenField('hidde', validators=[validators.DataRequired])
-    date = DateField('Date', format='%d-%M-%Y', validators=[validators.DataRequired])
+    date = DateField('Date', format='%d-%m-%Y', validators=[validators.DataRequired])
 
 class ElimCru(Form):
     hidden = HiddenField('hidden', validators=[validators.DataRequired])
@@ -62,6 +62,6 @@ class ElimComp(Form):
 class ElimAss(Form):
     hidden = HiddenField('hidde')
     cruisename = StringField('Cruise')
-    date = DateField('Date', format='%d-%M-%Y')
+    date = DateField('Date', format='%d-%m-%Y')
     check = BooleanField('Sure', default=False)
     submit = SubmitField('X')
