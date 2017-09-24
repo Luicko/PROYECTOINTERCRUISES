@@ -100,8 +100,7 @@ def createguide():
             res = res + x + "-"
             res[0:len(res)-1]
         g = Guides(guidename=form.guidename.data, phone=form.phonenumber.data,
-            email=form.email.data, guidetype=form.guidetype.data, guidecontract=form.guidecontract.data,
-            language=language, dni=form.dni.data, language=res)
+            email=form.email.data, guidetype=form.guidetype.data, guidecontract=form.guidecontract.data, language=language, dni=form.dni.data, language=res)
         try:
             db.session.add(g)
             db.session.commit()
